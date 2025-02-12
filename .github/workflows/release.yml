@@ -56,5 +56,7 @@ jobs:
         run: mint bootstrap
 
       - name: ./prepare_release.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           ./prepare_release.sh ${{ github.event.inputs.grdb_tag }} ${{ github.event.inputs.tag }}
