@@ -25,7 +25,7 @@ export new_version upstream_version="${grdb_tag#v}" sqlcipher_version="${sqlciph
 print_usage_and_exit() {
 	cat <<-EOF
 		Usage:
-		  $ $(basename "$0") [-v] [-h] [<grdb_tag>]
+		  $ $(basename "$0") [-v] [-h] [<grdb_tag>] [<tag>]
 
 		Options:
 		 -h      Show this message
@@ -54,6 +54,8 @@ read_command_line_arguments() {
 	if [[ -n "$grdb_tag" ]]; then
 		force_release=1
 	fi
+
+	new_version="$2"
 }
 
 clone_grdb() {

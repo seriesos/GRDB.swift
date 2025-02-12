@@ -3,8 +3,12 @@ name: Build Framework
 on:
   workflow_dispatch:
     inputs:
+      grdb_tag:
+        description: "GRDB Tag (e.g. v7.0.0)"
+        required: true
+        type: string
       tag:
-        description: "Tag to build (e.g. v1.2.3)"
+        description: "Release Tag (e.g. v1.2.3)"
         required: true
         type: string
 
@@ -34,4 +38,4 @@ jobs:
 
       - name: ./prepare_release.sh
         run: |
-          ./prepare_release.sh ${{ github.event.inputs.tag }}
+          ./prepare_release.sh ${{ github.event.inputs.grdb_tag }} ${{ github.event.inputs.tag }}
