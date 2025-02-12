@@ -36,7 +36,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-tags: ""
+          fetch-depth: 0
 
       - name: Select .xcode-version
         run: sudo xcodes select
