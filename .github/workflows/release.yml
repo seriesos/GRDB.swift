@@ -20,15 +20,34 @@ permissions:
   contents: write
 
 jobs:
-  build-notarize:
+  build-and-release:
     timeout-minutes: 30
-    runs-on: macos-latest
+    runs-on: sequoia-xcode
     steps:
+      - name: Read CIRRUS_HTTP_CACHE_HOST from 1password
+        id: op-action-cache-url-secret
+        uses: 1password/load-secrets-action@v2
+        with:
+          export-env: false
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.NOT_STARTING_WITH_GITHUB_SERIESOS_GRDB_SWIFT_1PASSWORD_SERVICE_ACCOUNT }}
+          CIRRUS_HTTP_CACHE_HOST: "op://Series Production/github-actions-cache-server/host"
+
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-tags: ""
 
       - name: Select .xcode-version
         run: sudo xcodes select
+
+      - name: Cache mint
+        uses: cirruslabs/cache@v4
+        env:
+          CIRRUS_HTTP_CACHE_HOST: ${{ steps.op-action-cache-url-secret.outputs.CIRRUS_HTTP_CACHE_HOST }}
+        with:
+          path: ~/.mint
+          key: $-mint-macos-$
 
       - name: Install mint
         run: brew install mint
