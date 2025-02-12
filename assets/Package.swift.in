@@ -10,9 +10,13 @@ let package = Package(
         .macOS(.v10_15),
     ],
     products: [
+        .library(name: "GRDBSQLite", targets: ["GRDBSQLite"]),
         .library(name: "GRDB", targets: ["GRDB", "_GRDBDummy"]),
     ],
     targets: [
+        .systemLibrary(
+            name: "GRDBSQLite",
+            providers: [.apt(["libsqlite3-dev"])]),
         .binaryTarget(
             name: "GRDB",
             url: "https://github.com/seriesos/GRDB.swift/releases/download/${new_version}/GRDB.xcframework.zip",
